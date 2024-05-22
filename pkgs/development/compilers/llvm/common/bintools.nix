@@ -27,6 +27,7 @@ runCommand "llvm-binutils-${version}"
     ln -s $llvmBin/llvm-ar $out/bin/${targetPrefix}ranlib
     ln -s $llvmBin/llvm-cxxfilt $out/bin/${targetPrefix}c++filt
     ln -s $llvmBin/llvm-dwp $out/bin/${targetPrefix}dwp
+    ln -s $llvmBin/llvm-lipo $out/bin/${targetPrefix}lipo
     ln -s $llvmBin/llvm-nm $out/bin/${targetPrefix}nm
     ln -s $llvmBin/llvm-objcopy $out/bin/${targetPrefix}objcopy
     ln -s $llvmBin/llvm-objcopy $out/bin/${targetPrefix}strip
