@@ -1,4 +1,4 @@
-{
+{ breakpointHook,
   lib,
   stdenv,
   buildPackages,
@@ -43,6 +43,10 @@ stdenv.mkDerivation rec {
       url = "https://github.com/tytso/e2fsprogs/commit/9217c359db1d1b6d031a0e2ca9a885634fed00da.patch";
       hash = "sha256-iDXmLq77eJolH1mkXSbvZ9tRVtGQt2F45CdkVphUZSs=";
     })
+    (fetchpatch {
+      url = "https://github.com/tytso/e2fsprogs/commit/a3600a4f539fc547911becc063c39fb8432fafdf.patch";
+      hash = "sha256-9WtumlxEhvKvqpKtFe4SneaHyuNecO4Ifp9cthO5iMI=";
+    })
   ];
 
   # fuse2fs adds 14mb of dependencies
@@ -57,7 +61,7 @@ stdenv.mkDerivation rec {
   depsBuildBuild = [ buildPackages.stdenv.cc ];
   nativeBuildInputs = [
     pkg-config
-    texinfo
+    texinfo breakpointHook
   ];
   buildInputs =
     [
@@ -69,9 +73,7 @@ stdenv.mkDerivation rec {
 
   configureFlags =
     lib.optionals stdenv.isLinux [
-      # It seems that the e2fsprogs is one of the few packages that cannot be
-      # build with shared and static libs.
-      (if shared then "--enable-elf-shlibs" else "--disable-elf-shlibs")
+      "--enable-elf-shlibs"
       "--enable-symlink-install"
       "--enable-relative-symlinks"
       "--with-crond-dir=no"
@@ -88,6 +90,8 @@ stdenv.mkDerivation rec {
     ++ lib.optionals withLibarchive [
       "--with-libarchive=direct"
     ];
+
+  makeFlags = lib.optionals (!shared) [ "all-static" ];
 
   nativeCheckInputs = [ buildPackages.perl ];
   doCheck = true;
