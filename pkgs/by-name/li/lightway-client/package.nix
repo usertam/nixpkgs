@@ -42,6 +42,9 @@ rustPlatform.buildRustPackage rec {
     description = "A modern VPN protocol in Rust";
     homepage = "https://expressvpn.com/lightway";
     license = lib.licenses.agpl3Only;
-    maintainers = with lib.maintainers; [ usertam ];
+    maintainers = with lib.maintainers; [
+      usertam
+      dustyhorizon
+    ];
   };
 }
